@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tam Thái Tử — Tháp Hà Nội (Bản Nâng Cấp)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="stylesen.css">
+</head>
+<body>
+  <div id="greetingPopup" class="fullscreen-overlay">
+    <div class="box">
+      <h2 style="margin:0">Chào mừng bạn đến với Tháp Hà Nội!</h2>
+      <div style="color:var(--muted);margin-top:8px">Để có trải nghiệm tốt nhất, bạn có muốn bật nhạc nền không?</div>
+      <div style="margin-top:12px; display:flex; justify-content:center; gap: 12px;">
+        <button id="musicYes" class="btn">Có, bật nhạc</button>
+        <button id="musicNo" class="ghost">Không, cảm ơn</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modeSelect" class="fullscreen-overlay" style="display:none;">
+    <div class="box">
+      <h2 style="margin:0">Chọn chế độ</h2>
+      <div style="color:var(--muted);margin-top:8px">Bắt đầu bằng cách chọn một chế độ. Bạn có thể đổi lại sau.</div>
+      <div class="mode-grid" role="list">
+        <div class="mode-card" id="mode-play" role="listitem" tabindex="0">
+          <h3>🎮 Play</h3>
+          <p>Chơi tự do: kéo thả, tính giờ, lưu kỷ lục.</p>
+        </div>
+         <div class="mode-card" id="mode-teach" role="listitem" tabindex="0">
+          <h3>🎓 Teach</h3>
+          <p>Học cách giải. Game sẽ gợi ý và chờ bạn đi đúng.</p>
+        </div>
+        <div class="mode-card" id="mode-learn" role="listitem" tabindex="0">
+          <h3>🧠 Learn (Đệ quy)</h3>
+          <p>Trực quan hóa thuật toán, call stack & từng bước.</p>
+        </div>
+        <div class="mode-card" id="mode-demo" role="listitem" tabindex="0">
+          <h3>🤖 Demo</h3>
+          <p>Xem máy tự động giải với số bước tối ưu.</p>
+        </div>
+        <div class="mode-card" id="mode-challenge" role="listitem" tabindex="0">
+          <h3>⏱️ Challenge</h3>
+          <p>Hoàn thành trong thời hạn. Thua sẽ... "Hết giờ!".</p>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;justify-content:center">
+        <button id="modeStart" class="btn">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app" id="app">
+    <div class="header">
+      <h1>Tam Thái Tử</h1>
+      <div class="kv" style="margin-left: 12px; font-weight: 600;">Mode: <span id="currentModeDisplay" style="color: var(--accent);">Play</span></div>
+      <div class="topmeta">
+        <div class="badge">Moves: <span id="mv" aria-live="polite">0</span></div>
+        <div class="badge">Best (<span id="best-n">4</span> đĩa): <span id="best">—</span></div>
+        <div class="badge">Time: <span id="tm" aria-live="polite">00:00</span></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="row">
+        <label>Số đĩa: <input id="n" type="number" min="1" max="8" value="4"></label>
+        <label>Theme:
+          <select id="theme" class="theme-select">
+            <option value="classic">✨ Classic</option>
+            <option value="burger">🍔 Burger</option>
+            <option value="rescue">🐱 Mèo</option>
+            <option value="neon">🌈 Neon</option>
+            <option value="dark">🌙 Dark Cozy</option>
+          </select>
+        </label>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <label for="bgm-upload-input" class="ghost" style="cursor: pointer;">Tải nhạc nền</label>
+            <input type="file" id="bgm-upload-input" accept="audio/*" style="display:none;">
+            <label class="kv">Âm: <input id="snd" type="checkbox" checked></label>
+        </div>
+      </div>
+
+      <div class="row" style="align-items:center">
+        <label style="display: none;">Tốc độ (Demo):
+          <select id="spd" class="speed-select">
+            <option value="1200">Chậm</option>
+            <option value="700" selected>Vừa</option>
+            <option value="300">Nhanh</option>
+          </select>
+        </label>
+
+        <button class="btn" id="reset">Reset</button>
+        <button class="ghost" id="changeMode">Đổi Chế độ</button>
+        <button class="ghost" id="undo" disabled>Undo</button>
+        <button class="ghost" id="auto">Auto-solve</button>
+        <button class="ghost" id="hint">Gợi ý</button>
+
+        <div style="margin-left:auto;display:flex;gap:12px;align-items:center">
+          <div class="progress" title="Tiến độ"><i id="prog"></i></div>
+          <div class="hud"><div class="kv">Mode hint: <span id="hintText" aria-live="polite">—</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap-stage" id="stage">
+      <div class="pole" id="a"><div class="peg"></div><div class="pole-label" style="position:absolute; bottom:-20px; font-weight: 700;">1</div></div>
+      <div class="pole" id="b"><div class="peg"></div><div class="pole-label" style="position:absolute; bottom:-20px; font-weight: 700;">2</div></div>
+      <div class="pole" id="c"><div class="peg"></div><div class="pole-label" style="position:absolute; bottom:-20px; font-weight: 700;">3</div></div>
+    </div>
+
+    <div class="footerNote">Mẹo: Kéo thả hoặc dùng phím số (1, 2, 3) để chọn cọc và di chuyển đĩa. Nhấn 'Esc' để hủy.</div>
+  </div>
+
+  <div id="finish" class="finishPop"></div>
+  <div id="nearOptimal" class="finishPop" style="min-width:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;"></div>
+
+  <div id="popup-rule1" class="popup" aria-hidden="false" style="display:none;">
+    <div class="popup-box">
+      <div style="font-weight:800;font-size:18px;margin-bottom:8px">Bạn đã biết luật chơi Tháp Hà Nội chưa?</div>
+      <div class="popup-actions">
+        <button id="popup-yes" class="btn">Biết rồi</button>
+        <button id="popup-no" class="ghost">Chưa biết</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup-rule2" class="popup" aria-hidden="true" style="display:none;">
+    <div class="popup-box">
+      <h3>Luật chơi Tháp Hà Nội</h3>
+      <div style="text-align:left;font-size:13px;color:var(--muted);line-height:1.35">
+        <p style="margin:6px 0;"><strong>Mục tiêu:</strong> Chuyển toàn bộ đĩa từ cột A sang cột C.</p>
+        <ol style="margin:4px 0 8px 20px;">
+          <li>Mỗi lần chỉ được di chuyển 1 đĩa.</li>
+          <li>Không được đặt đĩa lớn lên trên đĩa nhỏ.</li>
+          <li>Giữ nguyên thứ tự đĩa trên cột khi chuyển.</li>
+        </ol>
+        <p style="margin-top:6px">Hãy cố gắng hoàn thành với số bước càng nhỏ càng tốt!.</p>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:12px">
+        <button id="popup-start" class="btn">Bắt đầu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loserPopup" class="popup" style="display:none"><div class="popup-box"><div style="font-weight:900;font-size:20px;color:#d23"></div><div style="margin-top:12px"><button id="loserClose" class="btn">Đóng</button></div></div></div>
+
+  <audio id="bgm" loop preload="auto">
+    <source src="smooth-gaming-atmosphere-323659.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="learnPanel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-weight:800">Learn Trace (Đệ quy)</div>
+      <div style="font-size:13px;color:var(--muted)">n = <span id="learnN">4</span></div>
+    </div>
+    <div id="stackArea"></div>
+    <div id="learnExplain"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:center">
+      <button id="learnPrev" class="ghost">Prev</button>
+      <button id="learnPlay" class="btn">Play</button>
+      <button id="learnPause" class="ghost" style="display:none">Pause</button>
+      <button id="learnNext" class="ghost">Next</button>
+    </div>
+    <div style="display:flex;justify-content:center;margin-top:8px">
+      <label style="font-size:13px;color:var(--muted)">Speed:
+        <select id="learnSpeed" class="speed-select"><option value="1200">Slow</option><option value="700" selected>Medium</option><option value="300">Fast</option></select>
+      </label>
+    </div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="ap.js" defer></script>
+</body>
+</html>
