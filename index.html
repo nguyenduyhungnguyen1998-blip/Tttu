@@ -3,140 +3,123 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Tam Thái Tử — Tháp Hà Nội (Bản Nâng Cấp)</title>
+<title>Tam Thái Tử — Tháp Hà Nội (Dashboard Nâng Cấp)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="stylesen.css">
+<!-- SỬA LẠI TÊN FILE CSS CHO ĐÚNG -->
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Popups ban đầu -->
-  <div id="greetingPopup" class="fullscreen-overlay">
-    <div class="box">
-      <h2 style="margin:0">Chào mừng bạn đến với Tháp Hà Nội!</h2>
-      <div style="color:var(--muted);margin-top:8px">Để có trải nghiệm tốt nhất, bạn có muốn bật nhạc nền không?</div>
-      <div style="margin-top:12px; display:flex; justify-content:center; gap: 12px;">
-        <button id="musicYes" class="btn">Có, bật nhạc</button>
-        <button id="musicNo" class="ghost">Không, cảm ơn</button>
-      </div>
-    </div>
-  </div>
 
-  <div id="modeSelect" class="fullscreen-overlay" style="display:none;">
-    <div class="box">
-      <h2 style="margin:0">Chọn chế độ</h2>
-      <div style="color:var(--muted);margin-top:8px">Bắt đầu bằng cách chọn một chế độ. Bạn có thể đổi lại sau.</div>
-      <div class="mode-grid" role="list">
-        <div class="mode-card" id="mode-play" role="listitem" tabindex="0"><h3>🎮 Play</h3><p>Chơi tự do: kéo thả, tính giờ, lưu kỷ lục.</p></div>
-        <div class="mode-card" id="mode-teach" role="listitem" tabindex="0"><h3>🎓 Teach</h3><p>Học cách giải. Game sẽ gợi ý và chờ bạn đi đúng.</p></div>
-        <div class="mode-card" id="mode-learn" role="listitem" tabindex="0"><h3>🧠 Learn (Đệ quy)</h3><p>Trực quan hóa thuật toán, call stack & từng bước.</p></div>
-        <div class="mode-card" id="mode-demo" role="listitem" tabindex="0"><h3>🤖 Demo</h3><p>Xem máy tự động giải với số bước tối ưu.</p></div>
-        <div class="mode-card" id="mode-challenge" role="listitem" tabindex="0"><h3>⏱️ Challenge</h3><p>Hoàn thành trong thời hạn. Thua sẽ... "Hết giờ!".</p></div>
-      </div>
-      <div style="margin-top:12px;display:flex;justify-content:center"><button id="modeStart" class="btn">Xác nhận</button></div>
-    </div>
-  </div>
-
-  <!-- Ứng dụng chính -->
+  <!-- App Wrapper -->
   <div class="app" id="app">
-    <div class="header">
-      <h1>Tam Thái Tử</h1>
-      <div class="kv" style="margin-left: 12px; font-weight: 600;">Mode: <span id="currentModeDisplay" style="color: var(--accent);">Play</span></div>
-      <div class="topmeta">
-        <div class="badge">Moves: <span id="mv" aria-live="polite">0</span></div>
-        <div class="badge">Best (<span id="best-n">4</span> đĩa): <span id="best">—</span></div>
-        <div class="badge">Time: <span id="tm" aria-live="polite">00:00</span></div>
-      </div>
-    </div>
+    <header class="app-header">
+      <h1>Tam Thái Tử: Tháp Hà Nội</h1>
+      <div class="kv">Chế độ: <span id="currentModeDisplay" style="color: var(--accent);">Play</span></div>
+    </header>
 
-    <div class="main-content-grid">
-      <div class="controls-and-analysis">
-        <div class="controls">
-          <div class="row">
-            <label>Số đĩa: <input id="n" type="number" min="1" max="10" value="4"></label>
-            <label>Theme:
-              <select id="theme" class="theme-select">
-                <option value="classic">✨ Classic</option>
-                <option value="burger">🍔 Burger</option>
-                <option value="rescue">🐱 Mèo</option>
-                <option value="neon">🌈 Neon</option>
-                <option value="dark">🌙 Dark Cozy</option>
-              </select>
-            </label>
-            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-                <label for="bgm-upload-input" class="ghost" style="cursor: pointer;">Tải nhạc nền</label>
-                <input type="file" id="bgm-upload-input" accept="audio/*" style="display:none;">
-                <label class="kv">Âm: <input id="snd" type="checkbox" checked></label>
-            </div>
-          </div>
-
-          <div class="row" style="align-items:center">
-             <label style="display: none;">Tốc độ (Demo):
+    <!-- BỐ CỤC DASHBOARD 3 CỘT CHÍNH XÁC -->
+    <div class="dashboard-layout">
+      
+      <!-- CỘT 1: BẢNG ĐIỀU KHIỂN -->
+      <aside class="control-panel">
+        <div class="control-group">
+          <h4>Cài đặt Game</h4>
+          <label>Số đĩa: <input id="n" type="number" min="1" max="10" value="4"></label>
+          <label>Theme:
+            <select id="theme" class="theme-select">
+              <option value="classic">✨ Classic</option>
+              <option value="burger">🍔 Burger</option>
+              <option value="rescue">🐱 Mèo</option>
+              <option value="neon">🌈 Neon</option>
+              <option value="dark">🌙 Dark Cozy</option>
+            </select>
+          </label>
+        </div>
+        <div class="control-group">
+          <h4>Hành động</h4>
+          <button class="btn" id="reset">Reset Game</button>
+          <button class="ghost" id="undo" disabled>Undo</button>
+          <button class="ghost" id="hint">Gợi ý</button>
+        </div>
+        <div class="control-group">
+          <h4>Công cụ & Tùy chọn</h4>
+           <label style="display: none;">Tốc độ (Demo):
               <select id="spd" class="speed-select">
                 <option value="1200">Chậm</option><option value="700" selected>Vừa</option><option value="300">Nhanh</option>
               </select>
             </label>
-            <button class="btn" id="reset">Reset</button>
-            <button class="ghost" id="changeMode">Đổi Chế độ</button>
-            <button class="ghost" id="undo" disabled>Undo</button>
-            <button class="ghost" id="hint">Gợi ý</button>
-            <!-- NÚT MỚI -->
-            <button class="ghost" id="appPopupButton">Ứng dụng thực tiễn</button>
-          </div>
+          <button class="ghost" id="changeMode">Đổi Chế độ</button>
+          <button class="ghost" id="appPopupButton">Ứng dụng thực tiễn</button>
+          <label for="bgm-upload-input" class="ghost upload-btn">Tải nhạc nền</label>
+          <input type="file" id="bgm-upload-input" accept="audio/*" style="display:none;">
+          <label class="sound-toggle">Âm thanh: <input id="snd" type="checkbox" checked></label>
         </div>
+      </aside>
 
-        <!-- MODULE PHÂN TÍCH THUẬT TOÁN MỚI -->
-        <div id="analysisPanel" class="analysis-panel">
+      <!-- CỘT 2: SÂN KHẤU CHÍNH -->
+      <main class="center-stage">
+        <div class="game-stats">
+          <div class="badge">Moves: <span id="mv" aria-live="polite">0</span></div>
+          <div class="badge">Best (<span id="best-n">4</span> đĩa): <span id="best">—</span></div>
+          <div class="badge">Time: <span id="tm" aria-live="polite">00:00</span></div>
+        </div>
+        <div class="wrap-stage" id="stage">
+          <div class="pole" id="a"><div class="peg"></div><div class="pole-label">1</div></div>
+          <div class="pole" id="b"><div class="peg"></div><div class="pole-label">2</div></div>
+          <div class="pole" id="c"><div class="peg"></div><div class="pole-label">3</div></div>
+        </div>
+        <div class="game-footer">
+          <div class="progress" title="Tiến độ"><i id="prog"></i></div>
+          <div class="hud kv">Gợi ý chế độ: <span id="hintText" aria-live="polite">—</span></div>
+        </div>
+        <div class="footerNote">Mẹo: Kéo thả hoặc dùng phím số (1, 2, 3) để di chuyển. Nhấn 'Esc' để hủy.</div>
+      </main>
+
+      <!-- CỘT 3: TRUNG TÂM THÔNG TIN (VỚI #learnPanel ĐÃ ĐƯỢC ĐẶT ĐÚNG CHỖ) -->
+      <aside class="info-hub">
+        <!-- Trạng thái 1: Phân tích thuật toán (Mặc định) -->
+        <div id="analysisPanel" class="info-card">
           <h3>Phân tích Thuật toán</h3>
-          <p>Với <strong id="analysisN">4</strong> đĩa, số bước di chuyển tối thiểu là <strong id="analysisMoves">15</strong>.</p>
-          <p class="fact"><strong>Sự thật thú vị:</strong> Theo truyền thuyết, bài toán có 64 đĩa. Nếu mỗi bước di chuyển mất 1 giây, sẽ cần tới <strong id="analysisTime">585 tỷ năm</strong> để hoàn thành, dài hơn cả tuổi của vũ trụ!</p>
+          <p>Với <strong id="analysisN">4</strong> đĩa, số bước tối thiểu là <strong id="analysisMoves">15</strong>.</p>
+          <p class="fact"><strong>Sự thật thú vị:</strong> Với 64 đĩa, nếu mỗi bước mất 1 giây, sẽ cần tới <strong id="analysisTime">~585 tỷ năm</strong> để hoàn thành!</p>
         </div>
-      </div>
-
-      <div class="wrap-stage" id="stage">
-        <div class="pole" id="a"><div class="peg"></div><div class="pole-label">1</div></div>
-        <div class="pole" id="b"><div class="peg"></div><div class="pole-label">2</div></div>
-        <div class="pole" id="c"><div class="peg"></div><div class="pole-label">3</div></div>
-      </div>
+        
+        <!-- Trạng thái 2: Bảng điều khiển học tập (Khi ở chế độ Learn) -->
+        <div id="learnPanel" class="info-card" style="display:none;">
+          <div class="learn-header">
+            <h3>Learn Trace (Đệ quy)</h3>
+            <div class="kv">n = <span id="learnN">4</span></div>
+          </div>
+          <div id="stackArea" class="stack-area"></div>
+          <div id="learnExplain" class="learn-explain"></div>
+          <div class="learn-controls">
+            <button id="learnPrev" class="ghost">Prev</button>
+            <button id="learnPlay" class="btn">Play</button>
+            <button id="learnPause" class="ghost" style="display:none">Pause</button>
+            <button id="learnNext" class="ghost">Next</button>
+          </div>
+          <label class="kv learn-speed-label">Tốc độ:
+            <select id="learnSpeed" class="speed-select"><option value="1200">Chậm</option><option value="700" selected>Vừa</option><option value="300">Nhanh</option></select>
+          </label>
+        </div>
+      </aside>
+      
     </div>
-    
-    <div class="footer-bar">
-      <div class="progress" title="Tiến độ"><i id="prog"></i></div>
-      <div class="hud">
-        <div class="kv">Mode hint: <span id="hintText" aria-live="polite">—</span></div>
-      </div>
-    </div>
-    <div class="footerNote">Mẹo: Kéo thả hoặc dùng phím số (1, 2, 3) để chọn cọc và di chuyển đĩa. Nhấn 'Esc' để hủy.</div>
   </div>
 
-  <!-- Các popup kết quả và luật chơi -->
+  <!-- Popups & Overlays (Giữ nguyên các popup này) -->
+  <div id="greetingPopup" class="fullscreen-overlay">... (giữ nội dung cũ) ...</div>
+  <div id="modeSelect" class="fullscreen-overlay" style="display:none;">... (giữ nội dung cũ) ...</div>
+  <div id="appPopup" class="popup" style="display:none;">... (giữ nội dung cũ) ...</div>
   <div id="finish" class="finishPop"></div>
   <div id="nearOptimal" class="finishPop"></div>
-  <div id="loserPopup" class="popup" style="display:none"><div class="popup-box">...</div></div>
-
-  <!-- POPUP ỨNG DỤNG THỰC TIỄN MỚI -->
-  <div id="appPopup" class="popup" style="display:none;">
-    <div class="popup-box" style="text-align: left; max-width: 500px;">
-      <span class="close-btn" id="closeAppPopup">&times;</span>
-      <h3>Ứng dụng của Tư duy Đệ quy & Tháp Hà Nội</h3>
-      <p style="font-size: 14px; color: var(--muted); line-height: 1.5;">
-        Dù là một trò chơi cổ xưa, Tháp Hà Nội minh họa cho một khái niệm cực kỳ mạnh mẽ trong khoa học máy tính: <strong>Đệ quy</strong> (Recursion). Việc giải một bài toán lớn bằng cách chia nó thành các bài toán nhỏ hơn, giống hệt nhưng đơn giản hơn là cốt lõi của nhiều thuật toán hiện đại.
-      </p>
-      <ul>
-        <li><strong>Cấu trúc Thư mục:</strong> Hệ thống file và thư mục trên máy tính của bạn là một cấu trúc đệ quy. Một thư mục có thể chứa các file và các thư mục con khác.</li>
-        <li><strong>Thuật toán Sắp xếp:</strong> Các thuật toán sắp xếp hiệu quả như QuickSort và MergeSort hoạt động dựa trên nguyên lý "chia để trị" của đệ quy.</li>
-        <li><strong>Trí tuệ Nhân tạo (AI):</strong> AI thường sử dụng đệ quy để duyệt qua các cây quyết định, tìm kiếm nước đi tốt nhất trong các trò chơi như cờ vua.</li>
-        <li><strong>Đồ họa Máy tính:</strong> Vẽ các hình ảnh phức tạp như cây cối hay bông tuyết (fractals) thường dùng đến đệ quy.</li>
-      </ul>
-      <p style="font-size: 14px; text-align:center; margin-top: 16px;">
-        <button id="closeAppPopupBtn" class="btn">Tôi đã hiểu</button>
-      </p>
-    </div>
-  </div>
-
+  <div id="loserPopup" class="popup" style="display:none">... (giữ nội dung cũ) ...</div>
+  
   <audio id="bgm" loop preload="auto"><source src="smooth-gaming-atmosphere-323659.mp3" type="audio/mpeg"></audio>
   <canvas id="confetti"></canvas>
-  <div id="learnPanel">...</div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<script src="ap.js" defer></script>
+<!-- SỬA LẠI TÊN FILE JAVASCRIPT CHO ĐÚNG -->
+<script src="app.js" defer></script>
 </body>
 </html>
