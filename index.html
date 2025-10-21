@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Tam Thái Tử — Tháp Hà Nội (Dashboard Nâng Cấp)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<!-- SỬA LẠI TÊN FILE CSS CHO ĐÚNG -->
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="stylesen.css">
 </head>
 <body>
 
@@ -17,7 +16,7 @@
       <div class="kv">Chế độ: <span id="currentModeDisplay" style="color: var(--accent);">Play</span></div>
     </header>
 
-    <!-- BỐ CỤC DASHBOARD 3 CỘT CHÍNH XÁC -->
+    <!-- BỐ CỤC DASHBOARD 3 CỘT -->
     <div class="dashboard-layout">
       
       <!-- CỘT 1: BẢNG ĐIỀU KHIỂN -->
@@ -75,16 +74,13 @@
         <div class="footerNote">Mẹo: Kéo thả hoặc dùng phím số (1, 2, 3) để di chuyển. Nhấn 'Esc' để hủy.</div>
       </main>
 
-      <!-- CỘT 3: TRUNG TÂM THÔNG TIN (VỚI #learnPanel ĐÃ ĐƯỢC ĐẶT ĐÚNG CHỖ) -->
+      <!-- CỘT 3: TRUNG TÂM THÔNG TIN -->
       <aside class="info-hub">
-        <!-- Trạng thái 1: Phân tích thuật toán (Mặc định) -->
         <div id="analysisPanel" class="info-card">
           <h3>Phân tích Thuật toán</h3>
           <p>Với <strong id="analysisN">4</strong> đĩa, số bước tối thiểu là <strong id="analysisMoves">15</strong>.</p>
           <p class="fact"><strong>Sự thật thú vị:</strong> Với 64 đĩa, nếu mỗi bước mất 1 giây, sẽ cần tới <strong id="analysisTime">~585 tỷ năm</strong> để hoàn thành!</p>
         </div>
-        
-        <!-- Trạng thái 2: Bảng điều khiển học tập (Khi ở chế độ Learn) -->
         <div id="learnPanel" class="info-card" style="display:none;">
           <div class="learn-header">
             <h3>Learn Trace (Đệ quy)</h3>
@@ -103,23 +99,21 @@
           </label>
         </div>
       </aside>
-      
     </div>
   </div>
 
-  <!-- Popups & Overlays (Giữ nguyên các popup này) -->
-  <div id="greetingPopup" class="fullscreen-overlay">... (giữ nội dung cũ) ...</div>
-  <div id="modeSelect" class="fullscreen-overlay" style="display:none;">... (giữ nội dung cũ) ...</div>
-  <div id="appPopup" class="popup" style="display:none;">... (giữ nội dung cũ) ...</div>
+  <!-- Popups & Overlays -->
+  <div id="greetingPopup" class="fullscreen-overlay">...</div>
+  <div id="modeSelect" class="fullscreen-overlay" style="display:none;">...</div>
+  <div id="appPopup" class="popup" style="display:none;">...</div>
   <div id="finish" class="finishPop"></div>
   <div id="nearOptimal" class="finishPop"></div>
-  <div id="loserPopup" class="popup" style="display:none">... (giữ nội dung cũ) ...</div>
+  <div id="loserPopup" class="popup" style="display:none">...</div>
   
   <audio id="bgm" loop preload="auto"><source src="smooth-gaming-atmosphere-323659.mp3" type="audio/mpeg"></audio>
   <canvas id="confetti"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-<!-- SỬA LẠI TÊN FILE JAVASCRIPT CHO ĐÚNG -->
-<script src="app.js" defer></script>
+<script src="ap.js" defer></script>
 </body>
 </html>
